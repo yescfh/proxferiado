@@ -1,22 +1,47 @@
-importar { Terminal } desde '@es-js/terminal'
+importar { Terminal } desde "@es-js/terminal"
+importar { obtenerJson } desde "https://cdn.esjs.dev/MYewdgzgLgBCBGUCmYkCcBSFwwLwwEMIBLMYNcEGAMwFczicAKWtAGwEoYBvAKBhihIsNEggAHWmKgE8MMePQE0NJFGAALFuw78YoqCDRhl8iUpWiJU6AQB0AK2xgmugL69eSAB7ijMlW44RBR0LBwPIA"
+importar { calcularProximoFeriado } desde "https://cdn.esjs.dev/KYDwDg9gTgLghlABAMwK4DsDGBLC7GZwA2mqRCAClBCNgLYQBiwU2cAJhABTItucBnAJSIA3gChEBPAJiI4AC2hxEAXgJRgCRM0wK4XIZOnpZ8gI8QAgphipia+UqhwAdBABGMYOhZXLhsaYMnLsbDZ2DuqKyu5ePiwAImyBUsGmcnTAAhH2RI4xLnHevlAAstmGiADUiACMxpow0OjavKwcEAKuyNjo7FzGUjx8nSKqAHxDUogjHZyuWQJqqupLuQ4AZJsoowthKhOIBxtEIgA+59NS7fwQi9mIR+u2ecZGAL5AA"
+
+importar cryptojs desde "https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/+esm"
+
+var CONTRASEÑA_MD5 = "72e90ec066e6ab82d4165c83a6edded9"
+
+funcion calcularMd5(cadena) {
+  retornar cryptojs.MD5(Cadena(cadena)).aCadena()
+}
+
+asincrono funcion obtenerProximoFeriado() {
+  // Escribe tu código aquí 👈
+  const feriados = esperar obtenerJson(
+    "https://nolaborables.com.ar/api/v2/feriados/2023"
+  )
+
+  var proximoFeriado = calcularProximoFeriado(feriados)
+  Terminal.limpiar()
+  Terminal.escribir("El proximo feriado es : " + proximoFeriado.motivo)
+
+  Terminal.escribir(
+    "El día : " + proximoFeriado.dia + "/" + proximoFeriado.mes + "/" + "2023"
+  )
+  Terminal.escribir("Presiona enter para continuar")
+  esperar Terminal.leerEnter()
+  inicio()
+}
 
 asincrono funcion inicio() {
-	Terminal.limpiar()
+  // Escribe tu código aquí 👈
+  Terminal.limpiar()
+  Terminal.escribir("Ingresa tu contraseña")
+  var contraseña = esperar Terminal.leer()
+  si (calcularMd5(contraseña) === CONTRASEÑA_MD5) {
+    obtenerProximoFeriado()
+  } sino {
+    Terminal.escribir("Contraseña incorrecta")
+    Terminal.escribir("Presiona enter para continuar")
+    esperar Terminal.leerEnter()
 
-	Terminal.escribir('Ingresa un valor:')
-
-	const resultado = esperar Terminal.leer()
-
-	Terminal.escribir({
-		Resultado: resultado,
-		Tipo: tipoDe resultado,
-	})
-
-	Terminal.escribir('Presiona ENTER para volver a iniciar')
-
-	esperar Terminal.leerEnter()
-
-	esperar inicio()
+    inicio()
+  }
 }
 
 inicio()
